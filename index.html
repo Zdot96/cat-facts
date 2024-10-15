@@ -3,25 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hechos de Gatos</title>
+    <title>Hechos de Gatos y Clima</title>
 </head>
 <body>
     <h1>Hechos Curiosos sobre Gatos</h1>
-    <button onclick="getCatFact()">Obtener un hecho</button>
-    <div id="result"></div>
+    <button onclick="getCatFact()">Obtener un hecho de gatos</button>
+    <div id="catFactResult"></div>
+
+    <h1>Consulta el Clima</h1>
+    <input type="text" id="city" placeholder="Escribe una ciudad">
+    <button onclick="getWeather()">Obtener Clima</button>
+    <div id="weatherResult"></div>
 
     <script>
+        // Función para obtener hechos de gatos
         async function getCatFact() {
             const url = 'https://catfact.ninja/fact';
             
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                document.getElementById('result').innerHTML = `
+                document.getElementById('catFactResult').innerHTML = `
                     <p>${data.fact}</p>
                 `;
             } catch (error) {
                 console.log("Error fetching the cat fact:", error);
+            }
+        }
+
+        // Función para obtener el clima
+        async function getWeather() {
+            const city = document.getElementById('city').value;
+            const apiKey = 'c87baf3e659bc3138f074c8e04772e12';  // Reemplaza con tu API Key de OpenWeather
+            const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=es`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                document.getElementById('weatherResult').innerHTML = `
+                    <h3>${data.name}</h3>
+                    <p>Temperatura: ${data.main.temp}°C</p>
+                    <p>Clima: ${data.weather[0].description}</p>
+                `;
+            } catch (error) {
+                console.log("Error fetching the weather data:", error);
             }
         }
     </script>
