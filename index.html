@@ -3,50 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hechos de Gatos y Clima</title>
+    <title>Hechos Curiosos sobre Gatos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?fit=crop&w=1350&q=80');
+            background-size: cover;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ff6347;
+        }
+
+        button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #ff4500;
+        }
+
+        #catFactResult {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        #catImage {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hechos Curiosos sobre Gatos</h1>
-    <button onclick="getCatFact()">Obtener un hecho de gatos</button>
-    <div id="catFactResult"></div>
-
-    <h1>Consulta el Clima</h1>
-    <input type="text" id="city" placeholder="Escribe una ciudad">
-    <button onclick="getWeather()">Obtener Clima</button>
-    <div id="weatherResult"></div>
+    <div class="container">
+        <h1>Hechos Curiosos sobre Gatos</h1>
+        <button onclick="getCatFact()">Obtener un hecho de gatos</button>
+        <div id="catFactResult"></div>
+        <img id="catImage" src="https://placekitten.com/400/300" alt="Imagen de gato">
+    </div>
 
     <script>
-        // Función para obtener hechos de gatos
         async function getCatFact() {
             const url = 'https://catfact.ninja/fact';
             
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                document.getElementById('catFactResult').innerHTML = `
-                    <p>${data.fact}</p>
-                `;
+                document.getElementById('catFactResult').innerHTML = `<p>${data.fact}</p>`;
+                
+                // Cambia la imagen del gato al obtener un nuevo hecho
+                document.getElementById('catImage').src = `https://placekitten.com/${Math.floor(Math.random() * 100 + 300)}/${Math.floor(Math.random() * 100 + 200)}`;
             } catch (error) {
                 console.log("Error fetching the cat fact:", error);
-            }
-        }
-
-        // Función para obtener el clima
-        async function getWeather() {
-            const city = document.getElementById('city').value;
-            const apiKey = 'c87baf3e659bc3138f074c8e04772e12';  // Reemplaza con tu API Key de OpenWeather
-            const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=es`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                document.getElementById('weatherResult').innerHTML = `
-                    <h3>${data.name}</h3>
-                    <p>Temperatura: ${data.main.temp}°C</p>
-                    <p>Clima: ${data.weather[0].description}</p>
-                `;
-            } catch (error) {
-                console.log("Error fetching the weather data:", error);
             }
         }
     </script>
