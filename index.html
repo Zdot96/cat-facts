@@ -14,8 +14,9 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?fit=crop&w=1350&q=80');
+            background-image: url('https://cdn.pixabay.com/photo/2017/06/19/09/06/cat-2416407_1280.jpg');
             background-size: cover;
+            background-position: center;
             color: #333;
         }
 
@@ -58,6 +59,7 @@
             max-width: 400px;
             margin-top: 20px;
             border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -79,7 +81,9 @@
                 document.getElementById('catFactResult').innerHTML = `<p>${data.fact}</p>`;
                 
                 // Cambia la imagen del gato al obtener un nuevo hecho
-                document.getElementById('catImage').src = `https://placekitten.com/${Math.floor(Math.random() * 100 + 300)}/${Math.floor(Math.random() * 100 + 200)}`;
+                const randomWidth = Math.floor(Math.random() * 100 + 300); // Ancho aleatorio entre 300 y 400
+                const randomHeight = Math.floor(Math.random() * 100 + 200); // Alto aleatorio entre 200 y 300
+                document.getElementById('catImage').src = `https://placekitten.com/${randomWidth}/${randomHeight}`;
             } catch (error) {
                 console.log("Error fetching the cat fact:", error);
             }
